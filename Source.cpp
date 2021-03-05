@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#pragma region Week2
+#pragma region Assignment2
 
 //program 1: factorial (n!) calculator
 void factorialCalculator() {
