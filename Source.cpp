@@ -1,11 +1,12 @@
 #include <stdio.h>
+#include <iostream>
 #include <list>
 #include "House.h"
 #include "Car.h"
 #include "Motorbike.h"
 #include "Tree.h"
 
-#pragma region Lesson2
+#pragma region Lesson 2
 
 //program 1: factorial (n!) calculator
 void factorialCalculator() {
@@ -43,6 +44,10 @@ void positiveIntegerFilter() {
 
 #pragma region Lesson 3
 
+/// <summary>
+/// call createList() in main() to use
+/// </summary>
+
 void createList() {
 	std::list<BaseObject> lObject;
 
@@ -67,13 +72,165 @@ void createList() {
 
 #pragma endregion
 
+#pragma region Lesson 4
+
+class Door
+{
+	class State	*m_currentState;
+
+public:
+	Door();
+	~Door();
+
+	void setState(State* state) {
+		m_currentState = state;
+	}
+
+	void open();
+	void close();
+	void lock();
+	void unlock();
+};
+
+class State
+{
+public:
+	State();
+	~State();
+
+	//nothing special happens;functions are not overriden; dooe does not change when these functions are called
+
+	virtual void open(Door* door) {
+		printf("Door is already opened");
+	}
+
+	virtual void close(Door* door) {
+		printf("Door is already closed");
+	}
+
+	virtual void lock(Door* door) {
+		printf("Door is already locked");
+	}
+
+	virtual void unlock(Door* door) {
+		printf("Door is already unlocked");
+	}
+};
+
+
+void Door::open() {
+	m_currentState->open(this);
+}
+
+void Door::close() {
+	m_currentState->close(this);
+}
+
+void Door::lock() {
+	m_currentState->lock(this);
+}
+
+void Door::unlock() {
+	m_currentState->unlock(this);
+}
+
+class OpenDoor : public State
+{
+public:
+	OpenDoor() {
+		printf("Door Opened");
+	};
+	~OpenDoor() {
+		//printf("Door Closed");
+	};
+
+	//an opened door can only be closed
+	void close(Door* door);
+
+};
+
+class CloseDoor : public State
+{
+public:
+	CloseDoor() {
+		printf("Door Closed");
+	};
+	~CloseDoor() {
+		//printf("Door Closed");
+	};
+
+	//a closed door can be opened
+	void open(Door* door) {
+		printf("going from closed to opened");
+		door->setState(new OpenDoor());
+		delete this;
+	}
+
+	//and locked
+	void lock(Door* door);
+};
+
+void OpenDoor::close(Door* door) {
+	printf("going from opened to closed");
+	door->setState(new CloseDoor());
+	delete this;
+}
+
+class LockDoor : public State
+{
+public:
+	LockDoor() {
+		printf("Door Locked");
+	};
+	~LockDoor() {
+		//printf("Door Closed");
+	};
+
+	//a locked door can only be unlocked(to "closed door")
+	void unlock(Door* door) {
+		printf("going from locked to closed");
+		door->setState(new CloseDoor());
+		delete this;
+	}
+
+};
+
+
+
+void CloseDoor::lock(Door* door) {
+	printf("going from closed to locked");
+	door->setState(new LockDoor());
+	delete this;
+}
+
+Door::Door() {
+	m_currentState = new OpenDoor();
+}
+
+void doorProgram() {
+	void(Door:: * ptrs[])() =
+	{
+	  &Door::open, &Door::close, &Door::lock, &Door::unlock
+	};
+	Door fsm;
+	int num;
+	while (1)
+	{
+		printf("Enter 0/1: ");
+		scanf_s("%d", &num);
+		(fsm.*ptrs[num])();
+	}
+
+}
+
+#pragma endregion
 
 
 
 
 int main() {
 
-	createList();
+
 	printf("press enter to exit\n");
 	getc(stdin);
 	return 0;
