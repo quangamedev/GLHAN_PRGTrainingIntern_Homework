@@ -1,4 +1,9 @@
 #include <stdio.h>
+#include <list>
+#include "House.h"
+#include "Car.h"
+#include "Motorbike.h"
+#include "Tree.h"
 
 #pragma region Lesson2
 
@@ -36,14 +41,39 @@ void positiveIntegerFilter() {
 
 #pragma endregion
 
+#pragma region Lesson 3
+
+void createList() {
+	std::list<BaseObject> lObject;
+
+	Tree* tree = new Tree(1, "Oak", 1);
+	lObject.push_back(*tree);
+
+	House* house = new House(2, "Flat", 2);
+	lObject.push_back(*house);
+
+	Car* car = new Car(3, "Nissan", 2);
+	lObject.push_back(*car);
+
+	Motorbike* motorbike = new Motorbike(4, "Honda", 1);
+	lObject.push_back(*motorbike);
+
+	for (auto object : lObject) {
+		object.printPosition();
+	}
+
+	lObject.clear();
+}
+
+#pragma endregion
+
 
 
 
 
 int main() {
-	factorialCalculator();
-	//positiveIntegerFilter();
 
+	createList();
 	printf("press enter to exit\n");
 	getc(stdin);
 	return 0;

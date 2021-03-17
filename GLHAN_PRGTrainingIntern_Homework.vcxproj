@@ -139,7 +139,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BaseObject.cpp" />
+    <ClCompile Include="Car.cpp" />
+    <ClCompile Include="DynamicObject.cpp" />
+    <ClCompile Include="House.cpp" />
+    <ClCompile Include="Motorbike.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="StaticObject.cpp" />
+    <ClCompile Include="Tree.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="Car.h" />
+    <ClInclude Include="DynamicObject.h" />
+    <ClInclude Include="House.h" />
+    <ClInclude Include="Motorbike.h" />
+    <ClInclude Include="StaticObject.h" />
+    <ClInclude Include="Tree.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
